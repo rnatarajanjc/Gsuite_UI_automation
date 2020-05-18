@@ -1,3 +1,4 @@
+//This test needs pre-existing Gsuite directory created as 'G Suite'
 import axios from 'axios';
 import * as cypressEnv from '../../cypress.env.json';
 import * as cypressJson from '../../cypress.json';
