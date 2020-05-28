@@ -1,4 +1,5 @@
 //This test needs pre-existing Gsuite directory created as 'G Suite'
+
 import axios from 'axios';
 import * as cypressEnv from '../../cypress.env.json';
 import * as cypressJson from '../../cypress.json';
@@ -156,6 +157,7 @@ describe('Gsuite Aside', function()
         cy.get('span[title="Test Org"]').click();
         cy.get('[fill="#82bc00"]')
         cy.get('.EditableInputWithIcon__editIcon').click();
+        cy.get('.EditableInputWithIcon__cancelText').should('not.be.disabled')
         cy.get('.EditableInputWithIcon__cancelText').click();
         cy.get('.DirectorySync__reactivateButton > .FlatActionButton__content').should('not.be.disabled')
         cy.get('.DirectoryImport__sectionContent > .btnDefault > .FlatActionButton__content').should('not.be.disabled')
@@ -192,15 +194,36 @@ describe('Gsuite Aside', function()
         
     })
 
+    it ('Bind User Export Attributes and verify the Update modal', function()
+    {
+        
+        //cy.reload()
+        //cy.get('.btnDefault').click();
+        //cy.get('.CloseButton__closeButtonImg > g > path').click()
+        cy.wait(500);
+        cy.get('span[title="Test Org"]').filter('span[class="ItemName__title"]').click();
+        //cy.get('tbody > :nth-child(3) > :nth-child(3)').click()
+        cy.wait(500);
+        cy.get(':nth-child(2) > .AttributesGrid__grid > :nth-child(1) > label > input').click()
+        cy.get(':nth-child(2) > .AttributesGrid__grid > :nth-child(2) > label > input').click()
+        cy.get(':nth-child(2) > .AttributesGrid__grid > :nth-child(3) > label > input').click()
+        cy.get(':nth-child(2) > .AttributesGrid__grid > :nth-child(4) > label > input').click()
+        cy.get(':nth-child(2) > .AttributesGrid__grid > :nth-child(5) > label > input').click()
+        cy.get(':nth-child(3) > .AttributesGrid__grid > :nth-child(1) > label > input').click()
+        cy.get('.AsidePanel__actionSave > .btnDefault').click()
+        cy.get('.ModalHeader__headerText').should('contain','Update the source of record for user attributes?')
+        cy.get('.ModalFooter__modalFooter > .btnDefault').should('contain','update source of record')
+        cy.get('.ModalFooter__modalFooter > .btnDefault').click()
+
+    })
+
     it ('Validate the Muliple GSuite Modal', function()
     {
         cy.get('.btnMainAction > .jc-actions-add').click()
-        //cy.get('.jc-directories-fg').click()
         cy.wait(500);
-        cy.get('.btnMainAction > .jc-actions-add').click()
+        cy.get('span[title="G Suite"]').filter('span[class="DropDownList__menuItemLabel"]').click();
         //cy.get('.jc-actions-add').click()
         //cy.get('.ItemTableActionBar__actionBar > :nth-child(1) > .DropDownList__dropDownMenuList > :nth-child(1) > .DropDownList__menuItemsContainer > :nth-child(2) > .DropDownList__menuItem > .DropDownList__menuItemLabel').click()
-        cy.get('.itemTableContainer > :nth-child(1) > .ItemTable__container > .ItemTableActionBar__actionBar > :nth-child(1) > .DropDownList__dropDownMenuList > :nth-child(1) > .DropDownList__menuItemsContainer > :nth-child(2) > .DropDownList__menuItem').click()
         cy.get('.ModalHeader__headerText').should('contain','Set Up a New G Suite Directory')
         cy.get('.ModalFooter__cancelLink').should('not.be.disabled');
         cy.get('.btnDefault').should('be.disabled');
